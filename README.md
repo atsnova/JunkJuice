@@ -1,4 +1,5 @@
-## Welcome to GitHub Pages
+## Welcome to my Stock Pick Model
+
 
 You can use the [editor on GitHub](https://github.com/atsnova/StockPick/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
@@ -35,3 +36,28 @@ Your Pages site will use the layout and styles from the Jekyll theme you have se
 ### Support or Contact
 
 Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+
+
+
+# Model to look at selecting stocks using ML and AI and eventually Deep Learning 
+
+
+
+Time series forecaster:
+    https://facebook.github.io/prophet/
+    forecast time series data using additive models
+
+Tuts:
+
+https://enlight.nyc/projects/stock-market-prediction/ - basic stock forecast
+https://www.youtube.com/user/sentdex
+https://pythonprogramming.net
+https://pythonprogramming.net/machine-learning-python-sklearn-intro/
+
+
+Very important :::
+https://github.com/robertmartin8/MachineLearningStocks - the main SH1T !!!!!
+
+Arctiles:
+https://www.researchgate.net/publication/301847788_Equity_forecast_Predicting_long_term_stock_price_movement_using_machine_learning
+
