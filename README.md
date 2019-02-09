@@ -119,6 +119,9 @@ https://www.tradingtechnologies.com/help/x-study/technical-indicator-definitions
 https://za.markets.com/education/technical-analysis/mathematical-indicators/
 http://financeformulas.net/Stock-and-Bond-Formulas.html
 https://www.dundas.com/support/learning/documentation/analyze-data/formulas/list-of-formulas
+https://towardsdatascience.com/technical-analysis-library-to-financial-datasets-with-pandas-python-4b2b390d3543
+https://technical-analysis-library-in-python.readthedocs.io/en/latest/ta.html#momentum-indicators
+https://www.quantopian.com/posts/technical-analysis-indicators-without-talib-code
 
 
 Other models to consider:  specific Recurrent Neural Networks (RNN) /  specific Convolutional Neural Networks (CNN) http://stocksneural.net/

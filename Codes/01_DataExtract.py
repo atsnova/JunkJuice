@@ -54,70 +54,73 @@ def GetListOfTickers(Refresh=False):
 
 
 
-def GetTickerPrice(Refresh=False, Tickers=[],startDate=dt.date(2010,1,1),endDate=dt.date.today()):
-    ''' This function gets us price information using Quandal'''
-    ''' we pass in the tickers information from GetListOfTickers ie'''
-    ''' tickers and we get a list of csv files over a date range '''
-    ''' each stock is stored in its own directory in csv format'''
-    ''' pass in start and end date using dt.datetime(YYYY,MM,CC) format'''
-    
-    #start = dt.datetime(2000,01,01)
-    #end = dt.datetime(2000,01,01)
-    path = '/Users/atishparshotam/Google Drive/Git/JunkJuice/Data/Stock_Price'
+    def GetTickerPrice(Refresh=False, Tickers=[],startDate=dt.date(2010,1,1),endDate=dt.date.today()):
+        ''' This function gets us price information using Quandal'''
+        ''' we pass in the tickers information from GetListOfTickers ie'''
+        ''' tickers and we get a list of csv files over a date range '''
+        ''' each stock is stored in its own directory in csv format'''
+        ''' pass in start and end date using dt.datetime(YYYY,MM,CC) format'''
+        
+        #start = dt.datetime(2000,01,01)
+        #end = dt.datetime(2000,01,01)
+        path = '/Users/atishparshotam/Google Drive/Git/JunkJuice/Data/Stock_Price'
 
-    if Refresh==True:
-        # get the table for daily stock prices and,
-        # filter the table for selected tickers, columns within a time range
-        # set paginate to True because Quandl limits tables API to 10,000 rows per call
-        try:       
-            main_df = pd.DataFrame()
-            for ticker in Tickers:
-                # just in case your connection breaks, we'd like to save our progress!
-                        
-                if not os.path.exists('Data/Stock_Price/{}.csv'.format(ticker)):
-                    df = quandl.get("WIKI/" + ticker, start_date=startDate, end_date=endDate)
-                    df=df[['Adj. Close']]
-                    df.columns=[ticker]
-                    print("Writing file for :" + ticker)
-                    df.to_csv(os.path.join(path,r'{}.csv'.format(ticker)))
-                else:
-                    print('Already have {}'.format(ticker))
+        if Refresh==True:
+            # get the table for daily stock prices and,
+            # filter the table for selected tickers, columns within a time range
+            # set paginate to True because Quandl limits tables API to 10,000 rows per call
+            try:       
+                main_df = pd.DataFrame()
+                for ticker in Tickers:
+                    # just in case your connection breaks, we'd like to save our progress!
+                            
+                    if not os.path.exists('Data/Stock_Price/{}.csv'.format(ticker)):
+                        df = quandl.get("WIKI/" + ticker, start_date=startDate, end_date=endDate)
+                        #df=df[['Adj. Close']]
+                        #df.columns=[ticker]
+                        df['Ticker'] = ticker
+                        df.index = pd.to_datetime(df.index,infer_datetime_format=True)
+                        print(df.index)
+                        print("Writing file for :" + ticker)
+                        df.to_csv(os.path.join(path,r'{}.csv'.format(ticker)))
+                    else:
+                        print('Already have {}'.format(ticker))
 
-                if main_df.empty:
-                    main_df = df
-                else:
-                    main_df = main_df.join(df, how='outer')
+                    if main_df.empty:
+                        main_df = df
+                    else:
+                        main_df = main_df.join(df, how='outer')
 
-            print(main_df.head(3))
-            
-        except:
-            print( 'Ticker file ' + str(ticker) + ' had an error in extraction')
-            pass
-            #return(main_df)
-    else:
-        #read all directory and CSV files.
+                print(main_df.head(3))
+                
+            except:
+                print( 'Ticker file ' + str(ticker) + ' had an error in extraction')
+                pass
+                #return(main_df)
+        else:
+            #read all directory and CSV files.
 
-        try:
-            main_df = pd.DataFrame()
-            for count, ticker in enumerate(Tickers):
-                df = pd.read_csv(os.path.join(path,r'{}.csv'.format(ticker)))
-                df.set_index('Date', inplace=True)
+            try:
+                main_df = pd.DataFrame()
+                for count, ticker in enumerate(Tickers):
+                    df = pd.read_csv(os.path.join(path,r'{}.csv'.format(ticker)))
+                    df.set_index('Date', inplace=True)
 
-              #  df.rename(columns={'Adj Close': ticker}, inplace=True)
-              #  df.drop(['Open', 'High', 'Low', 'Close', 'Volume'], 1, inplace=True)
+                  #  df.rename(columns={'Adj Close': ticker}, inplace=True)
+                  #  df.drop(['Open', 'High', 'Low', 'Close', 'Volume'], 1, inplace=True)
 
-                if main_df.empty:
-                    main_df = df
-                else:
-                    main_df = main_df.join(df, how='outer')
+                    if main_df.empty:
+                        main_df = df
+                    else:
+                        main_df = main_df.join(df, how='outer')
 
-                if count % 10 == 0:
-                    print(count)
-            print(main_df.head(3))
-        except:
-            print( 'Ticker file ' + str(ticker) + ' does not exist; please run with Refresh=True')
-            pass
-        return(main_df)
+                    if count % 10 == 0:
+                        print(count)
+                print(main_df.head(3))
+            except:
+                print( 'Ticker file ' + str(ticker) + ' does not exist; please run with Refresh=True')
+                pass
+            return(main_df)
 
 
 
@@ -202,7 +205,7 @@ price_df = GetTickerPrice(Refresh=False,Tickers=tickers)
 #visualize_data(price_df)
 #ticker,pricedf = process_data_for_labels(price_df)
 
-days_forward=90
+days_forward=7
 
 price_df.fillna(0, inplace=True)
 for ticker in tickers:
